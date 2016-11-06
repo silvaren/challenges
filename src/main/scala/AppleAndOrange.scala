@@ -10,6 +10,7 @@ object AppleAndOrange {
     val n = sc.nextInt()
     val appleDs = for (x <- 0 until m) yield sc.nextInt()
     val orangeDs = for (x <- 0 until n) yield sc.nextInt()
+
     println(appleDs.count(x => a + x >= s && a + x <= t))
     println(orangeDs.count(x => b + x >= s && b + x <= t))
   }
