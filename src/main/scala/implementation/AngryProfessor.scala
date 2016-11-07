@@ -1,3 +1,5 @@
+package implementation
+
 object AngryProfessor {
 
   def main(args: Array[String]) {

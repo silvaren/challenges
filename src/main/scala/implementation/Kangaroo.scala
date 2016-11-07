@@ -1,3 +1,5 @@
+package implementation
+
 object Kangaroo {
 
   object Solution {

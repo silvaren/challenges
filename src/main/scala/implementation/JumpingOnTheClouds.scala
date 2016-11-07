@@ -1,3 +1,5 @@
+package implementation
+
 object JumpingOnTheClouds {
 
   def countJumps(cs: IndexedSeq[Int]): Int = {

@@ -1,3 +1,5 @@
+package implementation
+
 object StrangeAdvertising {
 
   def likes(n: Int): Int = {

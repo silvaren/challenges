@@ -1,3 +1,5 @@
+package implementation
+
 object RepeatedString {
 
   def main(args: Array[String]) {

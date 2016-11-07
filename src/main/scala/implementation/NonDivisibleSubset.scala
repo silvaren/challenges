@@ -1,3 +1,5 @@
+package implementation
+
 import scala.collection.immutable.IndexedSeq
 
 object NonDivisibleSubset {

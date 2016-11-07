@@ -1,3 +1,5 @@
+package implementation
+
 object DivisibleSumPairs {
 
   def main(args: Array[String]) {

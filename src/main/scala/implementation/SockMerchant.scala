@@ -1,3 +1,5 @@
+package implementation
+
 object SockMerchant {
 
   def findMatch(head: Int, tail: Seq[Int]): Option[Int] = {

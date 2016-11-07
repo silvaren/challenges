@@ -1,3 +1,5 @@
+package implementation
+
 object CutTheSticks {
 
   def cutSticks(as: Seq[Int]): Seq[Int] =
