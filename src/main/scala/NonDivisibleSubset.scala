@@ -2,40 +2,32 @@ import scala.collection.immutable.IndexedSeq
 
 object NonDivisibleSubset {
 
-  def maxSubset(sortedKeys: List[Int], k: Int, maxNonDivSubset: List[Int], byRemainder: Map[Int,IndexedSeq[Int]]):
-  List[Int] = {
-    sortedKeys match {
-      case List() => maxNonDivSubset
-      case 0 :: tail => maxSubset(tail, k, maxNonDivSubset, byRemainder)
+  def countGroups(keys: List[Int], k: Int, byRemainder: Map[Int,IndexedSeq[Int]], acc: Int): Int = {
+    keys match {
+      case 0 :: tail => countGroups(tail, k, byRemainder, acc)
+      case List() => acc
+      case head :: tail if (k % 2 == 0 && head == k / 2) => countGroups(tail, k, byRemainder, acc)
       case head :: tail => {
-        if (maxNonDivSubset.exists(x => (x + head) % k == 0 || (((x + x) % k == 0) && byRemainder(x).size > 1))) {
-          println("ignoring: " + head)
-          maxSubset(tail, k, maxNonDivSubset, byRemainder)
+        if (!byRemainder.contains(k-head) || byRemainder(head).size > byRemainder(k-head).size) {
+          val updated = if (tail.contains(k-head)) tail.diff(List(head,k-head)) else tail.diff(List(head))
+          countGroups(updated, k, byRemainder, acc + byRemainder(head).size)
         } else {
-          println("adding: " + head)
-          maxSubset(tail, k, head :: maxNonDivSubset, byRemainder)
+          countGroups(keys.diff(List(k - head, head)), k, byRemainder, acc + byRemainder(k - head).size)
         }
       }
     }
   }
-
-  def countGroups(byRemainder: Map[Int, IndexedSeq[Int]], k: Int) = {}
 
   def main(args: Array[String]) {
     val sc = new java.util.Scanner (System.in)
     val n = sc.nextInt()
     val k = sc.nextInt()
     val as = for (i <- 0 until n) yield sc.nextInt()
-
-    val byRemainder = as.groupBy( x => x % k)
-    countGroups(byRemainder, k);
-    val sortedKeys = byRemainder.keys.toList.sortWith((x,y) => byRemainder(x).size > byRemainder(y).size)
-    sortedKeys.foreach( x => println((x,byRemainder(x).size)))
-    val maxSubsetKeys = maxSubset(sortedKeys, k, List(), byRemainder)
-    maxSubsetKeys.foreach( x => println((x,byRemainder(x).size)))
+    val byRemainder = as.groupBy( x => x % k )
     val evenTerm = if (byRemainder.contains(0)) 1 else 0
     val halfTerm = if (k % 2 == 0 && byRemainder.contains(k/2)) 1 else 0
-    println(maxSubsetKeys.foldLeft(0)((total,key) => total + byRemainder(key).size) + evenTerm + halfTerm)
+    val sortedKeys: List[Int] = byRemainder.keys.toList.sortWith((x, y) => byRemainder(x).size > byRemainder(y).size)
+    println(countGroups(sortedKeys, k, byRemainder, 0) + evenTerm + halfTerm);
   }
 
 }
