@@ -11,7 +11,7 @@ object BfsShortReach {
       val newShortReach = shortReach.updated(node._1-1, node._2)
       val queueAddend = for (i <- 0 until adj.length if adj(node._1-1)(i) > 0)
         yield (i + 1, node._2 + adj(node._1-1)(i))
-      val newQueue = queue.tail ++ queueAddend
+      val newQueue = (queue.tail ++ queueAddend).filter{case (v,_) => newShortReach(v-1) < 0}
       bfs(adj, newQueue, newShortReach)
     }
   }
@@ -34,7 +34,7 @@ object BfsShortReach {
       val s = sc.nextInt()
 
       val adj = Array.ofDim[Int](n,n)
-      es.foreach{ case (v1: Int,v2: Int) => adj(v1-1)(v2-1) = LENGTH}
+      es.foreach{ case (v1: Int,v2: Int) => adj(v1-1)(v2-1) = LENGTH; adj(v2-1)(v1-1) = LENGTH}
       (adj, s)
     }
     qs.foreach(q => bfsProxy(adj = q._1, s = q._2))
