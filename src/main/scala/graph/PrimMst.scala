@@ -33,10 +33,8 @@ object PrimMst {
     }
     val s = sc.nextInt()
 
-    ms.foreach(println(_))
-    println(s)
     val mst = primMst(Tree(Set(s),Set()), ms.toSet, n)
-    println(mst)
+    println(mst.edges.foldLeft(0)((acc, e) => acc + e.length))
   }
 
 }
