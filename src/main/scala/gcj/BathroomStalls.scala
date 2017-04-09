@@ -16,15 +16,17 @@ object BathroomStalls extends App {
 
   @tailrec
   def stalls(empties: Seq[Long], k: Long): (Long, Long)= {
-    println(k)
     val biggestEmpty = empties.max
     val minMax = getMinMax(biggestEmpty)
     if (k == 1)
       minMax
     else {
-      val indexToRemove = empties.indexOf(biggestEmpty)
-      val newEmpties = empties.take(indexToRemove) ++ Seq(minMax._1,minMax._2) ++ empties.drop(indexToRemove + 1)
-      stalls(newEmpties, k-1)
+      val removedCount = empties.count(_ == biggestEmpty)
+      val newEmpties = empties.flatMap(e => if (e == biggestEmpty) Seq(minMax._1,minMax._2) else Seq(e))
+      if (k-removedCount < 1)
+        (minMax._1,minMax._2)
+      else
+        stalls(newEmpties, k-removedCount)
     }
   }
 
