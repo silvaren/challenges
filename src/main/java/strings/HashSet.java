@@ -1,20 +1,25 @@
 package strings;
 
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
-public class StringReverse {
+public class HashSet {
 
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String s = in.next();
+        Scanner s = new Scanner(System.in);
+        int t = s.nextInt();
+        String[] pair_left = new String[t];
+        String[] pair_right = new String[t];
 
-        boolean palindrome = true;
-        for (int i = 0; i < s.length(); i++) {
-            palindrome = palindrome && s.charAt(i) == s.charAt(s.length()-i-1);
+        for (int i = 0; i < t; i++) {
+            pair_left[i] = s.next();
+            pair_right[i] = s.next();
         }
-        if (palindrome)
-            System.out.println("Yes");
-        else
-            System.out.println("No");
+
+        java.util.HashSet<String> hashSet = new java.util.HashSet<>();
+        IntStream.range(0,t).forEach(i -> {
+            hashSet.add(pair_left[i] + "," + pair_right[i]);
+            System.out.println(hashSet.size());
+        });
     }
 }
